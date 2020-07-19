@@ -1,0 +1,20 @@
+const express=require('express')
+const router=express.Router()
+
+const {create,showProduct,deleteProduct,photo,listBySearch,listProducts,listCategories,relatedProducts,updateProduct, productById,listSearch}=require('../controllers/product')
+const {requireSignin,isAuth,isAdmin}=require('../controllers/auth')
+const {userById}=require('../controllers/user')
+
+router.post('/product/create/:userId',requireSignin,isAuth,isAdmin,create)
+router.get('/product/:productId',showProduct)
+router.put('/product/:productId/:userId',requireSignin,isAuth,isAdmin,updateProduct)
+router.delete('/product/:productId/:userId',requireSignin,isAuth,isAdmin,deleteProduct)
+router.get('/products',listProducts)
+router.param('userId',userById)
+router.get('/products/categories',listCategories)
+router.get('/products/related/:productId',relatedProducts)
+router.param('productId',productById)
+router.get("/products/search", listSearch)
+router.post("/products/by/search", listBySearch)
+router.get("/product/photo/:productId",photo)
+module.exports=router
